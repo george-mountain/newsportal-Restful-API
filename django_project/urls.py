@@ -1,5 +1,10 @@
 from django.contrib import admin
 from django.urls import path, include  # new
+from drf_spectacular.views import (
+    SpectacularAPIView,  # for schema
+    SpectacularRedocView,  # for docs using Redoc
+    SpectacularSwaggerView,  # for docs using Swagger
+)  # for dynamic API documentation SCHEMA
 
 
 urlpatterns = [
@@ -13,4 +18,17 @@ urlpatterns = [
         "api/v1/dj-rest-auth/registration/",  # new
         include("dj_rest_auth.registration.urls"),
     ),
+    path(
+        "api/schema/", SpectacularAPIView.as_view(), name="schema"
+    ),  # endpoint for the api  schema
+    path(
+        "api/schema/redoc/",
+        SpectacularRedocView.as_view(url_name="schema"),
+        name="redoc",
+    ),  # endpoint for the API documentation using Redocs
+    path(
+        "api/schema/swagger-ui/",
+        SpectacularSwaggerView.as_view(url_name="schema"),
+        name="swagger-ui",
+    ),  # endpoint for the API documentation using Swagger
 ]
