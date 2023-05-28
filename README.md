@@ -26,5 +26,3 @@ The NewsPortal API provides a comprehensive set of endpoints to interact with th
 The API documentation outlines the various API endpoints, their parameters, and the expected responses. It also provides examples and guidelines on how to consume the API using tools like cURL, Postman, or any programming language of your choice.
 
 
-## License
-The NewsPortal API is open-source software licensed under the MIT License. You are free to use, modify, and distribute the codebase as per the terms of the license.
