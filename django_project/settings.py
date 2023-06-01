@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     # 3rd-party apps
     "rest_framework",
     "corsheaders",
-    "rest_framework.authtoken",
+    "rest_framework.authtoken",  # generating tokens on the server
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
@@ -164,14 +164,14 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "accounts.CustomUser"  # new
 
-
-REST_FRAMEWORK = {  # new
+# Rest_framework configurations --- New
+REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",  # new
     ],
-    "DEFAULT_AUTHENTICATION_CLASSES": [  # new
-        "rest_framework.authentication.SessionAuthentication",
-        "rest_framework.authentication.TokenAuthentication",  # new
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",  # for session - Browsable api
+        "rest_framework.authentication.TokenAuthentication",  # for token authentication
     ],
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",  # new
 }
