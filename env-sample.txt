@@ -1,0 +1,15 @@
+Create an environment file in your root directory.
+
+Let's name the files
+.env
+
+Opent the .env file and enter your credentails keys like the one shown below
+
+
+SECRET_KEY=your_djangoProject_secret_key_here
+DEBUG=True
+API_KEY=your_API_Token_key_here
+
+Note that when you register as a user of the API, a token (API KEY)
+
+will be generated for you. It is this token that you will use in the configuration.

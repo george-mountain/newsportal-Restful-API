@@ -4,7 +4,7 @@ Using Generic views for the views.
 
 In this case, we will write a single view for each object
 
-For example, for user view, we will two views which are:
+For example, for user view, we will define two views which are:
 UserList view and UserDetail view.
 
 The same is applicable to posts etc.
@@ -44,6 +44,41 @@ using viewsets
 #     serializer_class = UserSerializer
 
 
+from django.contrib.auth import get_user_model
+from rest_framework import generics, permissions
+from rest_framework.parsers import MultiPartParser, FormParser
+from .models import Post
+from .permissions import IsAuthorOrReadOnly
+from .serializers import PostSerializer, UserSerializer
+
+
+class PostList(generics.ListCreateAPIView):
+    permission_classes = (IsAuthorOrReadOnly,)
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+    parser_classes = [MultiPartParser, FormParser]
+
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
+
+
+class PostDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = (IsAuthorOrReadOnly,)
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+    parser_classes = [MultiPartParser, FormParser]
+
+
+class UserList(generics.ListCreateAPIView):
+    queryset = get_user_model().objects.all()
+    serializer_class = UserSerializer
+
+
+class UserDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = get_user_model().objects.all()
+    serializer_class = UserSerializer
+
+
 """
 ------------------------------------
 Using Viewset for the views.
@@ -58,22 +93,22 @@ Instead of having these vies as separate views, we can combine them
 using viewsets
 """
 
-from django.contrib.auth import get_user_model
-from rest_framework import viewsets  # new
-from rest_framework.permissions import IsAdminUser  # new
+# from django.contrib.auth import get_user_model
+# from rest_framework import viewsets  # new
+# from rest_framework.permissions import IsAdminUser  # new
 
-from .models import Post
-from .permissions import IsAuthorOrReadOnly
-from .serializers import PostSerializer, UserSerializer
-
-
-class PostViewSet(viewsets.ModelViewSet):  # new
-    permission_classes = (IsAuthorOrReadOnly,)
-    queryset = Post.objects.all()
-    serializer_class = PostSerializer
+# from .models import Post
+# from .permissions import IsAuthorOrReadOnly
+# from .serializers import PostSerializer, UserSerializer
 
 
-class UserViewSet(viewsets.ModelViewSet):  # new
-    permission_classes = [IsAdminUser]  # new
-    queryset = get_user_model().objects.all()
-    serializer_class = UserSerializer
+# class PostViewSet(viewsets.ModelViewSet):  # new
+#     permission_classes = (IsAuthorOrReadOnly,)
+#     queryset = Post.objects.all()
+#     serializer_class = PostSerializer
+
+
+# class UserViewSet(viewsets.ModelViewSet):  # new
+#     permission_classes = [IsAdminUser]  # new
+#     queryset = get_user_model().objects.all()
+#     serializer_class = UserSerializer

@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,7 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-h=-3z@$!6&(!e2isli#v(c_0%keiwm=un41nml=+o-6!a6xswf"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
+
+DEBUG = config("DEBUG", cast=bool)
 
 ALLOWED_HOSTS = []
 
@@ -39,18 +42,18 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sites",  # new
     # 3rd-party apps
-    "rest_framework",  # new
-    "corsheaders",  # new
-    "rest_framework.authtoken",  # new
-    "allauth",  # new
-    "allauth.account",  # new
-    "allauth.socialaccount",  # new
-    "dj_rest_auth",  # new for authentication token signin etc
-    "dj_rest_auth.registration",  # new
-    "drf_spectacular",  # new
+    "rest_framework",
+    "corsheaders",
+    "rest_framework.authtoken",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "dj_rest_auth",  #  for authentication token signin etc
+    "dj_rest_auth.registration",  # for authentication registration
+    "drf_spectacular",  # for API documentation
     # Local
-    "accounts.apps.AccountsConfig",  # new
-    "posts.apps.PostsConfig",  # new
+    "accounts.apps.AccountsConfig",  # user account app
+    "posts.apps.PostsConfig",  # for post app
 ]
 
 MIDDLEWARE = [
@@ -78,7 +81,7 @@ ROOT_URLCONF = "django_project.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": ["templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -92,7 +95,7 @@ TEMPLATES = [
     },
 ]
 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"  # new
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"  # for sending emails
 
 
 SITE_ID = 1  # new
@@ -146,6 +149,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "static"
+STATICFILES_DIRS = ["django_project/static"]
+
+# Media files configurations
+MEDIA_URL = "media/"
+MEDIA_ROOT = BASE_DIR / "media"
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field

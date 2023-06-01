@@ -5,6 +5,8 @@ from drf_spectacular.views import (
     SpectacularRedocView,  # for docs using Redoc
     SpectacularSwaggerView,  # for docs using Swagger
 )  # for dynamic API documentation SCHEMA
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 urlpatterns = [
@@ -31,4 +33,4 @@ urlpatterns = [
         SpectacularSwaggerView.as_view(url_name="schema"),
         name="swagger-ui",
     ),  # endpoint for the API documentation using Swagger
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
